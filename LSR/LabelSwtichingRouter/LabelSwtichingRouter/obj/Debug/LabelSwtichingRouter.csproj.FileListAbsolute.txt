@@ -1,0 +1,6 @@
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe.config
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.pdb
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.csprojResolveAssemblyReference.cache
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.exe
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.pdb

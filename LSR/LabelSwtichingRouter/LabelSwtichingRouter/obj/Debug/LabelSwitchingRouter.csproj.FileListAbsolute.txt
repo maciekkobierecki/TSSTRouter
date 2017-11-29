@@ -1,0 +1,37 @@
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe.config
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.pdb
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.exe
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.pdb
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwitchingRouter.csprojResolveAssemblyReference.cache
+D:\Adrian\Dokumenty\GitHub\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwitchingRouter.csprojResolveAssemblyReference.cache
+D:\Adrian\Dokumenty\GitHub\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwitchingRouter.csproj.CoreCompileInputs.cache
+D:\Adrian\Dokumenty\GitHub\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.exe
+D:\Adrian\Dokumenty\GitHub\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.pdb
+C:\Users\73773\Desktop\projekty\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe.config
+C:\Users\73773\Desktop\projekty\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwitchingRouter.csprojResolveAssemblyReference.cache
+C:\Users\73773\Desktop\projekty\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe
+C:\Users\73773\Desktop\projekty\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.pdb
+C:\Users\73773\Desktop\projekty\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.exe
+C:\Users\73773\Desktop\projekty\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.pdb
+D:\Adrian\Dokumenty\GitHub\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe.config
+D:\Adrian\Dokumenty\GitHub\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe
+D:\Adrian\Dokumenty\GitHub\TSST\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.pdb
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe.config
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.pdb
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\NMS.exe
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\NMS.pdb
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\NMS.exe.config
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwitchingRouter.csprojResolveAssemblyReference.cache
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwitchingRouter.csproj.CoreCompileInputs.cache
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.exe
+C:\Users\Patryk-student ELKI\Desktop\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.pdb
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe.config
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.exe
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.pdb
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwitchingRouter.csprojResolveAssemblyReference.cache
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.pdb
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\tsst_client.exe
+C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\tsst_client.pdb
