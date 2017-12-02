@@ -59,8 +59,7 @@ namespace LabelSwitchingRouter
             outputSocket.Send(BitConverter.GetBytes(packSize));
             outputSocket.Send(BitConverter.GetBytes(outPort));
             outputSocket.Send(serializedMPLSPack);
-            
-            port.BufferClear();
+           
         }
 
         private static byte[] getSerializedIPPacket(Packet ipPacket)

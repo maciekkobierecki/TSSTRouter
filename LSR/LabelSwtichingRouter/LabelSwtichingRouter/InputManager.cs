@@ -69,6 +69,7 @@ namespace LabelSwitchingRouter
         private object ReceiveObject(int objectSize)
         {
             byte[] receivedObject = new byte[objectSize];
+            receivedObject[0] = 1;
             inputSocket.Receive(receivedObject, 0, objectSize, SocketFlags.None);
             object o = Deserialize(receivedObject);
             return o;

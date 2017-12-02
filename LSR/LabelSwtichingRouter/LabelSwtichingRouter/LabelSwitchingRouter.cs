@@ -3,9 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using tsst_client;
-using System.Threading.Tasks;
 using System.Timers;
+using tsst_client;
 
 namespace LabelSwitchingRouter
 {
@@ -71,6 +70,7 @@ namespace LabelSwitchingRouter
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
+            sendingTimer.Stop();
             foreach (OutPort outPort in outPorts)
             {
                 if (outPort.GetBufferLength() > 0)
@@ -78,11 +78,11 @@ namespace LabelSwitchingRouter
                     Console.WriteLine(outPort.GetBufferLength());
                     if (outPort.SendingToClient())
                     {
-                        int bufferSize = outPort.GetBufferLength();
-                        for (int index = 0; index < bufferSize; index++)
+                        int bufferLength = outPort.GetBufferLength();
+                        for(int i=0; i<bufferLength; i++)
                         {
                             Packet bufferObject = outPort.PrepareIPPacketFromBuffer(0);
-                            OutputManager.sendIPPacket(bufferObject,outPort, outPort.GetPortNumber());
+                            OutputManager.sendIPPacket(bufferObject, outPort, outPort.GetPortNumber());
                         }
                     }
                     else
@@ -92,6 +92,7 @@ namespace LabelSwitchingRouter
                     }
                 }
             }
+            sendingTimer.Start();
         }
 
         public void PassToInModule(object oSender, object received, int destPort)
