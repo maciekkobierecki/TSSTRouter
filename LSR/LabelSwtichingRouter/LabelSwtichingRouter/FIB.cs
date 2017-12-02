@@ -117,15 +117,15 @@ namespace LabelSwitchingRouter
             return label;
         }
 
-        public int ExchangeIpAddressForLabel(String ipaddress)
+        public int ExchangeIpAddressForLabel(String ipaddress, int inPort)
         {
-            Entry result = routingTable.Find(x => x.IPAddress == ipaddress);
+            Entry result = routingTable.FindAll(x => x.IPAddress == ipaddress).Find(x => x.InPort == inPort);
             int label = result.InLabel;
             return label;
         }
-        public int ExchangeIpAddressForPort(String ipaddress)
+        public int ExchangeIpAddressForPort(String ipaddress, int inPort)
         {
-            Entry result = routingTable.Find(x => x.IPAddress == ipaddress);
+            Entry result = routingTable.FindAll(x => x.IPAddress == ipaddress).Find(x=> x.InPort == inPort);
             int port = result.InPort;
             return port;
         }

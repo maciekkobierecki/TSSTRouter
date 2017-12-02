@@ -103,7 +103,7 @@ namespace LabelSwitchingRouter
                 if (received.GetType() == typeof(Packet))
                 {
                     Packet receivedPacket = (Packet)received;
-                    MPLSPacket packet = SetLabelAndPort(receivedPacket);
+                    MPLSPacket packet = SetLabelAndPort(receivedPacket, destPort);
                     destinationPort = GetPortNumber(packet);
                     inPort = GetInPort(destinationPort);
                     MPLSPacket processedPacket = inPort.ProcessPacket(packet);
@@ -129,10 +129,10 @@ namespace LabelSwitchingRouter
            
         }
 
-        private MPLSPacket SetLabelAndPort(Packet packet)
+        private MPLSPacket SetLabelAndPort(Packet packet, int destinationPort)
         {
-            int label = fib.ExchangeIpAddressForLabel(packet.destinationAddress);
-            int inPort = fib.ExchangeIpAddressForPort(packet.destinationAddress);
+            int label = fib.ExchangeIpAddressForLabel(packet.destinationAddress, destinationPort);
+            int inPort = fib.ExchangeIpAddressForPort(packet.destinationAddress, destinationPort);
             MPLSPacket mplspacket = new MPLSPacket(packet, label);
             mplspacket.DestinationPort = inPort;
             return mplspacket;
