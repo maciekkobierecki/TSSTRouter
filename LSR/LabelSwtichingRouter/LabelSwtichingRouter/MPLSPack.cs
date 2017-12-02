@@ -17,6 +17,9 @@ namespace LabelSwitchingRouter
             this.packets = packets;
         }
 
+        public MPLSPack()
+        {
+        }
 
         public List<MPLSPacket> Unpack()
         {

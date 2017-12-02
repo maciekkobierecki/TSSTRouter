@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using NMS;
+using NMS;
+using System.Timers;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
@@ -14,7 +15,6 @@ namespace LabelSwitchingRouter
 {
     class RouterAgent
     {
-        /*
         private Socket output_socket = null;
         private Socket inputSocket = null;
         private Socket foreignSocket = null;
@@ -23,6 +23,7 @@ namespace LabelSwitchingRouter
         private FIB fib;
         private int outport;
         private string _interface;
+        private Boolean connected;
 
         public RouterAgent(FIB fib, List<InPort> inPorts)
         {
@@ -33,7 +34,7 @@ namespace LabelSwitchingRouter
             _interface = Config.getProperty("NMSInterface");
             outport = Config.getIntegerProperty("NMSListenPort");
 
-            SendSingleCommand(outCommand);
+            SendSingleCommand(_interface, outport);
 
             inputSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
@@ -42,19 +43,41 @@ namespace LabelSwitchingRouter
 
             Listen();
         }
-        private void SendSingleCommand(Command cm)
+
+
+        private void SendSingleCommand(string agentID, int agentPort)
         {
-            cm = new Command(_interface, outport, 0, 0, 0, 0, 0, 0, "null");
+            Command cm = new Command(agentID, agentPort);
+            output_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
+            IPEndPoint remoteEP = new IPEndPoint(ipAdd, 7386);
+            output_socket.Connect(remoteEP);
+            output_socket.Send(GetSerializedCommand(cm));
+
+        }
+
+        private void SendKeepAliveMessage(string agentID)
+        {
+            Command cm = new Command(agentID);
+            if (!connected)
+                init();
+           
+
             Thread tr;
             tr = new Thread(() =>
-                {
-                    output_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
-                    IPEndPoint remoteEP = new IPEndPoint(ipAdd, 7386);
-                    output_socket.Connect(remoteEP);
-                    output_socket.Send(GetSerializedCommand(cm));
-                });
+            {
+                output_socket.Send(GetSerializedCommand(cm));
+            });
             tr.Start();
+        }
+        
+        private void init()
+        {
+            output_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
+            IPEndPoint remoteEP = new IPEndPoint(ipAdd, 7386);
+            output_socket.Connect(remoteEP);
+            connected = true;
         }
 
         public void Listen()
@@ -69,13 +92,13 @@ namespace LabelSwitchingRouter
                     foreignSocket = inputSocket.Accept();
                     byte[] bytes = new byte[foreignSocket.SendBufferSize];
                     readByte = foreignSocket.Receive(bytes);
-                    Console.WriteLine("Odebralem {0} bajtow!", bytes.Length);
                     inCommand = GetDeserializedCommand(bytes);
                     if (inCommand.agentId == "Add")
                     {
                         fib.AddEntry(inCommand.inPort, inCommand.inLabel, inCommand.outPort, inCommand.outLabel, inCommand.newLabel, inCommand.removeLabel, inCommand.ipAdress);
                     }
-                    else {
+                    else
+                    {
                         fib.RemoveEntry(inCommand.inPort, inCommand.inLabel);
                     }
                     fib.UpdatePortsRoutingTables(inPorts);
@@ -84,7 +107,17 @@ namespace LabelSwitchingRouter
             );
             t.Start();
 
-
+            Thread tr;
+            tr = new Thread(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(3000);
+                    SendKeepAliveMessage("KeepAlive");
+                }
+            }
+            );
+            tr.Start();
 
         }
 
@@ -106,6 +139,5 @@ namespace LabelSwitchingRouter
             bf.Serialize(ms, com);
             return ms.ToArray();
         }
-        */
     }
 }

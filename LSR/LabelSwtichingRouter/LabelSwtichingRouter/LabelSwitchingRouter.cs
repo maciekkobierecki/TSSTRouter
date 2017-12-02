@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using tsst_client;
 using System.Text;
+using tsst_client;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -27,10 +27,12 @@ namespace LabelSwitchingRouter
             outPorts = new List<OutPort>();
             sendingTimer = new Timer();
             sendingTimer.Interval = Config.getIntegerProperty("SendingInterval");
-            //agent = new RouterAgent(fib, inPorts);
+            sendingTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            sendingTimer.Enabled = true;
+            agent = new RouterAgent(fib, inPorts);
             CreateInPorts(numberOfInputModules);
             CreateOutPorts(numberOfOutputModules);
-            Console.WriteLine("Stworzono LSR.");
+           Console.WriteLine("Created LSR");
 
         }
 
@@ -53,7 +55,6 @@ namespace LabelSwitchingRouter
                 int portNumber = Config.getIntegerProperty("OutPortNumber" + i);
                 OutPort outPort = new OutPort(portNumber);
                 outPorts.Add(outPort);
-                Console.WriteLine("Created outPort no. " + i);
             }
 
         }
@@ -65,48 +66,81 @@ namespace LabelSwitchingRouter
                 int portNumber = int.Parse(Config.getProperty("InPortNumber" + i));
                 InPort inPort = new InPort(portNumber, fib.ReturnSubTable(portNumber));
                 inPorts.Add(inPort);
-                Console.WriteLine("Created inPort no. " + portNumber);
             }
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            OutPort outPort = null;
-            for (int i = 0; i < outPorts.Count; i++)
+            foreach (OutPort outPort in outPorts)
             {
-                outPort = (OutPort)outPorts.ElementAt(i);
-                MPLSPack bufferContent = outPort.PrepareMPLSPackFromBuffer();
-                OutputManager.sendMPLSPack(bufferContent);
+                if (outPort.GetBufferLength() > 0)
+                {
+                    Console.WriteLine(outPort.GetBufferLength());
+                    if (outPort.SendingToClient())
+                    {
+                        int bufferSize = outPort.GetBufferLength();
+                        for (int index = 0; index < bufferSize; index++)
+                        {
+                            Packet bufferObject = outPort.PrepareIPPacketFromBuffer(0);
+                            OutputManager.sendIPPacket(bufferObject,outPort, outPort.GetPortNumber());
+                        }
+                    }
+                    else
+                    {
+                        MPLSPack bufferContent = outPort.PrepareMPLSPackFromBuffer();
+                        OutputManager.sendMPLSPack(bufferContent, outPort.GetPortNumber(), outPort);
+                    }
+                }
             }
         }
 
-        public void PassToInModule(object oSender, object received)
+        public void PassToInModule(object oSender, object received, int destPort)
         {
-            InPort inPort;
-            int destinationPort;
-            if (received.GetType() == typeof(Packet))
+            try
             {
-                Packet receivedPacket = (Packet)received;
-                destinationPort = GetPortNumber(receivedPacket);
-                inPort = GetInPort(destinationPort);
-                MPLSPacket processedPacket = inPort.ProcessPacket(receivedPacket);
-                Commutate(processedPacket);
-            }
-            else if (received.GetType() == typeof(MPLSPack))
+                InPort inPort;
+                int destinationPort;
+                if (received.GetType() == typeof(Packet))
+                {
+                    Packet receivedPacket = (Packet)received;
+                    MPLSPacket packet = SetLabelAndPort(receivedPacket);
+                    destinationPort = GetPortNumber(packet);
+                    inPort = GetInPort(destinationPort);
+                    MPLSPacket processedPacket = inPort.ProcessPacket(packet);
+                    Commutate(processedPacket);
+                    Console.WriteLine("Passing Packet to inPort {0}", destinationPort);
+                }
+                else if (received.GetType() == typeof(MPLSPack))
+                {
+                    MPLSPack receivedPack = (MPLSPack)received;
+                    destinationPort = destPort;
+                    inPort = GetInPort(destinationPort);
+                    List<MPLSPacket> processedPackets = inPort.ProcessPack(receivedPack, destPort);
+                    foreach (MPLSPacket packet in processedPackets)
+                    {
+                        Commutate(packet);
+                        Console.WriteLine("Passing MPLSPack to inPort {0}", destinationPort);
+                    }
+                }
+            }catch(Exception e)
             {
-                MPLSPack receivedPack = (MPLSPack)received;
-                destinationPort = receivedPack.DestinationPort;
-                inPort = GetInPort(destinationPort);
-                List<MPLSPacket> processedPackets = inPort.ProcessPack(receivedPack);
-                foreach (MPLSPacket packet in processedPackets) {
-                    Commutate(packet);
-                } 
+                Console.WriteLine("Connection doesn't exist");
             }
+           
         }
 
-        private int GetPortNumber(Packet receivedPacket)
+        private MPLSPacket SetLabelAndPort(Packet packet)
         {
-            int portNumber = receivedPacket.destinationPort;
+            int label = fib.ExchangeIpAddressForLabel(packet.destinationAddress);
+            int inPort = fib.ExchangeIpAddressForPort(packet.destinationAddress);
+            MPLSPacket mplspacket = new MPLSPacket(packet, label);
+            mplspacket.DestinationPort = inPort;
+            return mplspacket;
+        }
+
+        private int GetPortNumber(MPLSPacket receivedPacket)
+        {
+            int portNumber = receivedPacket.DestinationPort;
             return portNumber;
         }
 
@@ -135,6 +169,6 @@ namespace LabelSwitchingRouter
                 }
             }
         }
-        
+
     }
 }

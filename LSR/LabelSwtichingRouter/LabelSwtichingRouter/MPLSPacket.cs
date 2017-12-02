@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using tsst_client;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LabelSwitchingRouter
@@ -19,6 +19,14 @@ namespace LabelSwitchingRouter
             this.ipPacket = ipPacket;
             labelStack = new Stack<int>();
             labelStack.Push(label);
+        }
+        public MPLSPacket(MPLSPacket packet)
+        {
+            ipPacket = new Packet(packet.ipPacket);
+            labelStack = new Stack<int>();
+            for (int i = 0; i < packet.labelStack.Count; i++)
+                labelStack.Push(packet.labelStack.ElementAt(i));
+            DestinationPort = packet.DestinationPort;
         }
 
         public int GetLabelFromStack()

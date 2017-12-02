@@ -15,27 +15,30 @@ namespace LabelSwitchingRouter
     class OutputManager
     {
         private static Socket outputSocket;
-
+        static int port;
         public static void initialize()
         {
-            int port = Config.getIntegerProperty("CableCloudInPort");
+            port = Config.getIntegerProperty("CableCloudInPort");
             String address = Config.getProperty("CableCloudAddress");
-            Socket createdSocket = createSocket(address, port);
+            createSocket(address, port);
         }
-        private static Socket createSocket(String address, int port)
+        private static void createSocket(String address, int port)
         {
             IPAddress ip = IPAddress.Parse(address);
             IPEndPoint ipe = new IPEndPoint(ip, port);
-            Socket createdSocket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            createdSocket.Connect(ipe);
-            return createdSocket;
+            outputSocket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            outputSocket.Connect(ipe);
         }
-        public static void sendMPLSPack(MPLSPack mplsPack)
+        public static void sendMPLSPack(MPLSPack mplsPack, int outPort, OutPort port)
         {
             byte[] serializedMPLSPack = getSerializedPack(mplsPack);
-            int packSize = serializedMPLSPack.Length;
+            int packSize = serializedMPLSPack.Length + 8;
             outputSocket.Send(BitConverter.GetBytes(packSize));
+            outputSocket.Send(BitConverter.GetBytes(packSize));
+            outputSocket.Send(BitConverter.GetBytes(outPort));
             outputSocket.Send(serializedMPLSPack);
+            
+            port.BufferClear();
         }
 
         private static byte[] getSerializedPack(MPLSPack pack)
@@ -47,12 +50,17 @@ namespace LabelSwitchingRouter
             return serialized;
         }
 
-        public static void sendIPPacket(Packet ipPacket)
+        public static void sendIPPacket(Packet ipPacket, OutPort port, int outPort)
         {
             byte[] serializedMPLSPack = getSerializedIPPacket(ipPacket);
-            int packSize = serializedMPLSPack.Length;
+            int packSize = serializedMPLSPack.Length + 8;
+
             outputSocket.Send(BitConverter.GetBytes(packSize));
+            outputSocket.Send(BitConverter.GetBytes(packSize));
+            outputSocket.Send(BitConverter.GetBytes(outPort));
             outputSocket.Send(serializedMPLSPack);
+            
+            port.BufferClear();
         }
 
         private static byte[] getSerializedIPPacket(Packet ipPacket)

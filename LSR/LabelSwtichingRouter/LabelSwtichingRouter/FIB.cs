@@ -76,7 +76,7 @@ namespace LabelSwitchingRouter
             }
             else Console.WriteLine("Entry with such input parameters doesn't exist in this FIB.");
         }
-
+         
         public List<Entry> ReturnSubTable(int inport)
         {
             return routingTable.FindAll(x => x.InPort == inport);
@@ -89,9 +89,18 @@ namespace LabelSwitchingRouter
 
         public int[] GetOutput(int iport, int ilabel)
         {
-            Entry result = routingTable.FindAll(x => x.InPort == iport).Find(x => x.InLabel == ilabel);
-            int[] outPair = { result.OutPort, result.OutLabel };
-            return outPair;
+            try
+            {
+                Entry result = routingTable.FindAll(x => x.InPort == iport).Find(x => x.InLabel == ilabel);
+                int[] outPair = { result.OutPort, result.OutLabel };
+                return outPair;
+            }
+            catch(Exception e)
+            {
+                int[] error = { 0, 0 };
+                return error;
+            }
+
         }
 
         public int LookForLabelToBeAdded(int iport, int ilabel)
@@ -113,6 +122,12 @@ namespace LabelSwitchingRouter
             Entry result = routingTable.Find(x => x.IPAddress == ipaddress);
             int label = result.InLabel;
             return label;
+        }
+        public int ExchangeIpAddressForPort(String ipaddress)
+        {
+            Entry result = routingTable.Find(x => x.IPAddress == ipaddress);
+            int port = result.InPort;
+            return port;
         }
 
     }

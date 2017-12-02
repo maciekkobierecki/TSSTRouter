@@ -17,7 +17,7 @@ namespace LabelSwitchingRouter
 
         private Socket inputSocket;
 
-        public delegate void ReceivedDelegate(object oSender, object packet);
+        public delegate void ReceivedDelegate(object oSender, object packet, int destPort);
         public event ReceivedDelegate ProcessPackage;
 
         public InputManager()
@@ -34,16 +34,18 @@ namespace LabelSwitchingRouter
         {
             IPAddress cableCloudAddress = IPAddress.Parse(address);
             IPEndPoint ipe = new IPEndPoint(cableCloudAddress, port);
-            inputSocket= new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            inputSocket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             inputSocket.Connect(ipe);
         }
         public void waitForInput()
         {
             int objectSize = ReadIncomingObjectSize();
+            int destPort = ReadIncomingObjectSize(); //tak naprawde to to jest dest 
             removeSourcePortInformation();
-            objectSize=decreaseObjectSizeByPortNumber(objectSize);
+            objectSize = decreaseObjectSizeByPortNumber(objectSize);
             object receivedObject = ReceiveObject(objectSize);
-            FireRecievedEvent(receivedObject);
+            //Console.WriteLine("Received object from CableCloud");
+            FireRecievedEvent(receivedObject, destPort);
         }
 
         private void removeSourcePortInformation()
@@ -54,7 +56,7 @@ namespace LabelSwitchingRouter
 
         private int decreaseObjectSizeByPortNumber(int objectSize)
         {
-            return objectSize - INTEGER_SIZE;
+            return objectSize - 2*INTEGER_SIZE;
         }
         private int ReadIncomingObjectSize()
         {
@@ -77,14 +79,14 @@ namespace LabelSwitchingRouter
             MemoryStream ms = new MemoryStream();
             ms.Write(serializedObject, 0, serializedObject.Length);
             ms.Seek(0, SeekOrigin.Begin);
-            object deserialized= bf.Deserialize(ms);
+            object deserialized = bf.Deserialize(ms);
             return deserialized;
 
         }
-        public void FireRecievedEvent(Object receivedObject)
+        public void FireRecievedEvent(Object receivedObject, int destPort)
         {
             if (null != ProcessPackage)
-                ProcessPackage(this, receivedObject);
+                ProcessPackage(this, receivedObject, destPort);
         }
     }
 }

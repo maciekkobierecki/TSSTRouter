@@ -62,12 +62,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="bin\Debug\LabelSwtichingRouter.exe.config" />
+    <None Include="bin\Debug\LabelSwtichingRouter.vshost.exe.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\tsst_client\tsst_client\tsst_client.csproj">
+    <ProjectReference Include="..\..\..\..\TSSTClient-master\tsst_client\tsst_client.csproj">
       <Project>{f9a62193-8c61-4da8-bc84-ed8efdf2104a}</Project>
       <Name>tsst_client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\tsst_nms\NMS\NMS\NMS.csproj">
+      <Project>{7ebdb322-4c24-4787-aca7-ae871604f7a6}</Project>
+      <Name>NMS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

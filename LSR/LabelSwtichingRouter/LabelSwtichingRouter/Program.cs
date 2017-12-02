@@ -12,7 +12,6 @@ namespace LabelSwitchingRouter
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Halo");
             OutputManager.initialize();
             InputManager inputManager = new InputManager();
             LabelSwitchingRouter lsr = new LabelSwitchingRouter();
@@ -29,6 +28,6 @@ namespace LabelSwitchingRouter
                 inputManager.waitForInput();
             }
         }
-      
+
     }
 }
