@@ -123,11 +123,14 @@ namespace LabelSwitchingRouter
             int label = result.InLabel;
             return label;
         }
-        public int ExchangeIpAddressForPort(String ipaddress, int inPort)
-        {
-            Entry result = routingTable.FindAll(x => x.IPAddress == ipaddress).Find(x=> x.InPort == inPort);
-            int port = result.InPort;
-            return port;
+
+        public void DisplayFIB(int inPortNumber) {
+            Console.WriteLine("{0} | FIB of inPort {1}", DateTime.Now.ToString("h:mm:ss tt"), inPortNumber);
+            foreach (Entry entry in routingTable) {
+                Console.WriteLine("InPort {0} InLabel {1} OutPort {2} OutLabel {3} NewLabel {4} RemoveLabel {5} DestinationAddress {6}", 
+                    entry.InPort, entry.InLabel, entry.OutPort, entry.OutLabel, entry.NewLabel, entry.RemoveLabel, entry.IPAddress);
+            }
+
         }
 
     }

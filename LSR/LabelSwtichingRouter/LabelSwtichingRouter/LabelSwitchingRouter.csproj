@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commutator.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="FIB.cs" />
     <Compile Include="InputManager.cs" />
@@ -56,7 +55,6 @@
     <Compile Include="MPLSPack.cs" />
     <Compile Include="MPLSPacket.cs" />
     <Compile Include="OutputManager.cs" />
-    <Compile Include="PacketPackage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -31,7 +31,7 @@ namespace LabelSwitchingRouter
             agent = new RouterAgent(fib, inPorts);
             CreateInPorts(numberOfInputModules);
             CreateOutPorts(numberOfOutputModules);
-           Console.WriteLine("Created LSR");
+            Console.WriteLine("{0} | Created LSR", DateTime.Now.ToString("h: mm: ss tt"));
 
         }
 
@@ -79,16 +79,18 @@ namespace LabelSwitchingRouter
                     if (outPort.SendingToClient())
                     {
                         int bufferLength = outPort.GetBufferLength();
-                        for(int i=0; i<bufferLength; i++)
+                        for (int i = 0; i < bufferLength; i++)
                         {
                             Packet bufferObject = outPort.PrepareIPPacketFromBuffer(0);
                             OutputManager.sendIPPacket(bufferObject, outPort, outPort.GetPortNumber());
+                            Console.WriteLine("{0} | Sending IPPacket from outPort {1}", DateTime.Now.ToString("h: mm: ss tt"), outPort.GetPortNumber());
                         }
                     }
                     else
                     {
                         MPLSPack bufferContent = outPort.PrepareMPLSPackFromBuffer();
                         OutputManager.sendMPLSPack(bufferContent, outPort.GetPortNumber(), outPort);
+                        Console.WriteLine("{0} | Sending MPLSPack from outPort {1}", DateTime.Now.ToString("h: mm: ss tt"), outPort.GetPortNumber());
                     }
                 }
             }
@@ -107,35 +109,36 @@ namespace LabelSwitchingRouter
                     MPLSPacket packet = SetLabelAndPort(receivedPacket, destPort);
                     destinationPort = GetPortNumber(packet);
                     inPort = GetInPort(destinationPort);
+                    Console.WriteLine("{0} | Passing MPLSPacket to inPort {1}", DateTime.Now.ToString("h: mm: ss tt"), inPort);
                     MPLSPacket processedPacket = inPort.ProcessPacket(packet);
                     Commutate(processedPacket);
-                    Console.WriteLine("Passing Packet to inPort {0}", destinationPort);
+
                 }
                 else if (received.GetType() == typeof(MPLSPack))
                 {
                     MPLSPack receivedPack = (MPLSPack)received;
                     destinationPort = destPort;
                     inPort = GetInPort(destinationPort);
+                    Console.WriteLine("{0} | Passing MPLSPack to inPort {1}", DateTime.Now.ToString("h: mm: ss tt"), destinationPort);
                     List<MPLSPacket> processedPackets = inPort.ProcessPack(receivedPack, destPort);
                     foreach (MPLSPacket packet in processedPackets)
                     {
                         Commutate(packet);
-                        Console.WriteLine("Passing MPLSPack to inPort {0}", destinationPort);
                     }
                 }
-            }catch(Exception e)
-            {
-                Console.WriteLine("Connection doesn't exist");
             }
-           
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} | Connection doesn't exist {1}", DateTime.Now.ToString("h: mm: ss tt"));
+            }
         }
 
         private MPLSPacket SetLabelAndPort(Packet packet, int destinationPort)
         {
             int label = fib.ExchangeIpAddressForLabel(packet.destinationAddress, destinationPort);
-            int inPort = fib.ExchangeIpAddressForPort(packet.destinationAddress, destinationPort);
+            Console.WriteLine("{0} | Converting IPPacket to MPLSPacket with label {1}", DateTime.Now.ToString("h: mm: ss tt"), label);
             MPLSPacket mplspacket = new MPLSPacket(packet, label);
-            mplspacket.DestinationPort = inPort;
+            mplspacket.DestinationPort = destinationPort;
             return mplspacket;
         }
 
@@ -165,6 +168,7 @@ namespace LabelSwitchingRouter
                 portNumber = port.GetPortNumber();
                 if (packetOutPort == portNumber)
                 {
+                    Console.WriteLine("{0} | Adding MPLSPacket to buffer of OutPort {1}", DateTime.Now.ToString("h: mm: ss tt"), portNumber);
                     port.AddToBuffer(packet);
                     return;
                 }

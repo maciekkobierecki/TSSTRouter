@@ -27,8 +27,10 @@ namespace LabelSwitchingRouter
         }
         public List<MPLSPacket> ProcessPack(MPLSPack mplsPack, int destPort)
         {
-            Console.WriteLine("MPLSPack with label {0} added to inPort {1}", destPort, portNumber);
+            Console.WriteLine("{0} | MPLSPack with label {0} added to inPort {1}", DateTime.Now.ToString("h: mm: ss tt"), destPort, portNumber);
             List<MPLSPacket> packets = UnpackPack(mplsPack);
+            Console.WriteLine("{0} | MPLSPack unpacked, comutating MPLSPackets", DateTime.Now.ToString("h: mm: ss tt"));
+
             foreach (MPLSPacket packet in packets) {
                 packet.DestinationPort = destPort;
             }
@@ -63,18 +65,15 @@ namespace LabelSwitchingRouter
             if (fib.LookForLabelToBeAdded(oldPort, oldLabel) != 0)
             {
                 packet.PutLabelOnStack(fib.LookForLabelToBeAdded(oldPort, oldLabel));
+                Console.WriteLine("{0} | Starting new tunnel", DateTime.Now.ToString("h: mm: ss tt"));
                 ChangeLabel(packet);
             }
             else if (fib.LookForLabelToBeRemoved(oldPort, oldLabel) != 0)
             {
+                Console.WriteLine("{0} | Ending tunnel", DateTime.Now.ToString("h: mm: ss tt"));
                 ChangeLabel(packet);
             }
-            Console.WriteLine("MPLSPacket label changed from {0} to {1}", oldLabel, label);
-        }
-
-        private void EndMPLSTunnel(MPLSPacket packet)
-        {
-            packet.RemoveTopLabelFromStack();
+            Console.WriteLine("{0} | MPLSPacket label from inPort {1} changed from {2} to {3}, will be sent to outPort {4}", DateTime.Now.ToString("h: mm: ss tt"), oldPort, oldLabel, label, port);
         }
 
         public int GetPortNumber()
