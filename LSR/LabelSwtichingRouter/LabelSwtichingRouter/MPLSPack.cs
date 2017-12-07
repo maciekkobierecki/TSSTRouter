@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LabelSwtichingRouter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,10 @@ namespace LabelSwitchingRouter
     [Serializable]
     class MPLSPack
     {
-        private List<MPLSPacket> packets;
+        private ThreadSafeList<MPLSPacket> packets;
         public int DestinationPort { get; set; }
 
-        public MPLSPack(List<MPLSPacket> packets)
+        public MPLSPack(ThreadSafeList<MPLSPacket> packets)
         {
             this.packets = packets;
         }
@@ -21,7 +22,7 @@ namespace LabelSwitchingRouter
         {
         }
 
-        public List<MPLSPacket> Unpack()
+        public ThreadSafeList<MPLSPacket> Unpack()
         {
             return packets;
         }

@@ -33,8 +33,10 @@ namespace LabelSwitchingRouter
             this.inPorts = inPorts;
             _interface = Config.getProperty("NMSInterface");
             outport = Config.getIntegerProperty("NMSListenPort");
-
+            init();
+            Console.WriteLine("Established connection with NMS");
             SendSingleCommand(_interface, outport);
+            Console.WriteLine("Sent hello message");
 
             inputSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
@@ -48,10 +50,6 @@ namespace LabelSwitchingRouter
         private void SendSingleCommand(string agentID, int agentPort)
         {
             Command cm = new Command(agentID, agentPort);
-            output_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
-            IPEndPoint remoteEP = new IPEndPoint(ipAdd, 7386);
-            output_socket.Connect(remoteEP);
             output_socket.Send(GetSerializedCommand(cm));
 
         }
@@ -83,15 +81,13 @@ namespace LabelSwitchingRouter
         public void Listen()
         {
             inputSocket.Listen(0);
-            int readByte;
             Thread t;
             t = new Thread(() =>
             {
+                    foreignSocket = inputSocket.Accept();
                 while (true)
                 {
-                    foreignSocket = inputSocket.Accept();
-                    byte[] bytes = new byte[foreignSocket.SendBufferSize];
-                    readByte = foreignSocket.Receive(bytes);
+                    byte[] bytes=Receive(foreignSocket);
                     inCommand = GetDeserializedCommand(bytes);
                     if (inCommand.agentId == "Add")
                     {
@@ -119,6 +115,21 @@ namespace LabelSwitchingRouter
             );
             tr.Start();
 
+        }
+
+        private byte[] Receive(Socket inputSocket)
+        {
+            byte[] messageSize = new byte[4];
+            inputSocket.Receive(messageSize, 0, 4, SocketFlags.None);
+            int inputSize = BitConverter.ToInt32(messageSize,0);
+            byte[] bytes = new byte[inputSize];
+            int totalReceived = 0;
+            do
+            {
+                int received = inputSocket.Receive(bytes, totalReceived, inputSize - totalReceived, SocketFlags.Partial);
+                totalReceived += received;
+            } while (totalReceived != inputSize);
+            return bytes;
         }
 
         private Command GetDeserializedCommand(byte[] b)

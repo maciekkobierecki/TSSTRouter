@@ -10,6 +10,7 @@ namespace LabelSwitchingRouter
 {
     class Program
     {
+        public static int count = 0;
         static void Main(string[] args)
         {
             OutputManager.initialize();
@@ -29,6 +30,11 @@ namespace LabelSwitchingRouter
             {
                 inputManager.waitForInput();
             }
+        }
+
+        public static void print()
+        {
+            Console.WriteLine(count);
         }
 
     }

@@ -5,6 +5,7 @@ using System.Text;
 using tsst_client;
 using System.Threading.Tasks;
 using static LabelSwitchingRouter.FIB;
+using LabelSwtichingRouter;
 
 namespace LabelSwitchingRouter
 {
@@ -21,17 +22,20 @@ namespace LabelSwitchingRouter
         public MPLSPacket ProcessPacket(MPLSPacket mplsPacket)
         {
             Console.WriteLine("MPLSPacket added to inPort {0}", portNumber);
-
+            Program.count++;
+            Program.print();
             ChangeLabel(mplsPacket);
             return mplsPacket;
         }
-        public List<MPLSPacket> ProcessPack(MPLSPack mplsPack, int destPort)
+        public ThreadSafeList<MPLSPacket> ProcessPack(MPLSPack mplsPack, int destPort)
         {
             Console.WriteLine("{0} | MPLSPack with label {0} added to inPort {1}", DateTime.Now.ToString("h: mm: ss tt"), destPort, portNumber);
-            List<MPLSPacket> packets = UnpackPack(mplsPack);
+            ThreadSafeList<MPLSPacket> packets = UnpackPack(mplsPack);
             Console.WriteLine("{0} | MPLSPack unpacked, comutating MPLSPackets", DateTime.Now.ToString("h: mm: ss tt"));
 
             foreach (MPLSPacket packet in packets) {
+                Program.count++;
+                Program.print();
                 packet.DestinationPort = destPort;
             }
             packets.ForEach(ChangeLabel);
@@ -45,7 +49,7 @@ namespace LabelSwitchingRouter
         }
 
 
-        public List<MPLSPacket> UnpackPack(MPLSPack pack)
+        public ThreadSafeList<MPLSPacket> UnpackPack(MPLSPack pack)
         {
             return pack.Unpack();
         }
@@ -85,12 +89,12 @@ namespace LabelSwitchingRouter
     class OutPort
     {
         protected int portNumber;
-        protected List<MPLSPacket> packetBuffer;
+        protected ThreadSafeList<MPLSPacket> packetBuffer;
 
         public OutPort(int number)
         {
             portNumber = number;
-            packetBuffer = new List<MPLSPacket>();
+            packetBuffer = new ThreadSafeList<MPLSPacket>();
         }
 
         public void AddToBuffer(MPLSPacket packet)
@@ -101,8 +105,10 @@ namespace LabelSwitchingRouter
 
         public MPLSPack PrepareMPLSPackFromBuffer()
         {
-            MPLSPack pack = new MPLSPack(packetBuffer);
-            pack.DestinationPort = packetBuffer[0].DestinationPort;
+            ThreadSafeList<MPLSPacket> currentBuffer = packetBuffer;
+            packetBuffer = new ThreadSafeList<MPLSPacket>();
+            MPLSPack pack = new MPLSPack(currentBuffer);
+            pack.DestinationPort = currentBuffer[0].DestinationPort;
             return pack;
         }
         public void BufferClear()
@@ -129,7 +135,7 @@ namespace LabelSwitchingRouter
 
         public bool SendingToClient()
         {
-            if (packetBuffer.Count > 0)
+            if (packetBuffer.Count() > 0)
                 if (packetBuffer[0].labelStack.Count == 0) return true;
             return false;
         }
