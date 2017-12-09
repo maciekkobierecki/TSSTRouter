@@ -50,7 +50,11 @@ namespace LabelSwitchingRouter
         private void SendSingleCommand(string agentID, int agentPort)
         {
             Command cm = new Command(agentID, agentPort);
-            output_socket.Send(GetSerializedCommand(cm));
+            byte[] serializedCommand = GetSerializedCommand(cm);
+            int messageSize = serializedCommand.Length;
+            byte[] size = BitConverter.GetBytes(messageSize);
+            output_socket.Send(size);
+            output_socket.Send(serializedCommand);
 
         }
 
@@ -64,7 +68,11 @@ namespace LabelSwitchingRouter
             Thread tr;
             tr = new Thread(() =>
             {
-                output_socket.Send(GetSerializedCommand(cm));
+                byte[] serialized = GetSerializedCommand(cm);
+                int serializedSize = serialized.Length;
+                byte[] sizeBytes = BitConverter.GetBytes(serializedSize);
+                output_socket.Send(sizeBytes);
+                output_socket.Send(serialized);
             });
             tr.Start();
         }
@@ -103,7 +111,7 @@ namespace LabelSwitchingRouter
             );
             t.Start();
 
-            Thread tr;
+            /*Thread tr;
             tr = new Thread(() =>
             {
                 while (true)
@@ -114,6 +122,7 @@ namespace LabelSwitchingRouter
             }
             );
             tr.Start();
+            */
 
         }
 
