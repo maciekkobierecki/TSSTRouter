@@ -13,6 +13,7 @@ namespace LabelSwitchingRouter
         public static int count = 0;
         static void Main(string[] args)
         {
+            Console.Title = ("Label Switching Router " + Config.getProperty("NMSInterface"));
             OutputManager.initialize();
             InputManager inputManager = new InputManager();
             LabelSwitchingRouter lsr = new LabelSwitchingRouter();
@@ -30,11 +31,6 @@ namespace LabelSwitchingRouter
             {
                 inputManager.waitForInput();
             }
-        }
-
-        public static void print()
-        {
-            Console.WriteLine(count);
         }
 
     }

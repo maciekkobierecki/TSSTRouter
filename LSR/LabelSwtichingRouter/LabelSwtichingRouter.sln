@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelSwitchingRouter", "LabelSwtichingRouter\LabelSwitchingRouter.csproj", "{86EAF508-647A-4C2F-A4A6-8D275C127841}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NMS", "..\..\..\tsst_nms\NMS\NMS\NMS.csproj", "{7EBDB322-4C24-4787-ACA7-AE871604F7A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tsst_client", "..\..\..\tsst_client\tsst_client\tsst_client.csproj", "{F9A62193-8C61-4DA8-BC84-ED8EFDF2104A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subnetwork", "..\..\..\Subnetwork\Subnetwork\Subnetwork.csproj", "{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{F9A62193-8C61-4DA8-BC84-ED8EFDF2104A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9A62193-8C61-4DA8-BC84-ED8EFDF2104A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9A62193-8C61-4DA8-BC84-ED8EFDF2104A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

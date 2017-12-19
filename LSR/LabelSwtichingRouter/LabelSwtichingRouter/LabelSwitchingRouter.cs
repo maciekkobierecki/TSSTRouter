@@ -16,6 +16,7 @@ namespace LabelSwitchingRouter
         List<OutPort> outPorts;
         Timer sendingTimer;
         RouterAgent agent;
+        ConnectionController CC;
         int numberOfInputModules, numberOfOutputModules;
 
         public LabelSwitchingRouter()
@@ -30,10 +31,10 @@ namespace LabelSwitchingRouter
             sendingTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             sendingTimer.Enabled = true;
             agent = new RouterAgent(fib, inPorts);
+            CC = new ConnectionController(fib);
             CreateInPorts(numberOfInputModules);
             CreateOutPorts(numberOfOutputModules);
-            Console.WriteLine("{0} | Created LSR", DateTime.Now.ToString("h: mm: ss tt"));
-
+            Log("Created LSR");          
         }
 
         private int GetInputModulesNumber()
@@ -77,7 +78,6 @@ namespace LabelSwitchingRouter
             {
                 if (outPort.GetBufferLength() > 0)
                 {
-                    Console.WriteLine(outPort.GetBufferLength());
                     portNumber = outPort.GetPortNumber();
                     if (outPort.SendingToClient())
                     {
@@ -85,14 +85,14 @@ namespace LabelSwitchingRouter
                         { 
                             Packet bufferObject = outPort.PrepareIPPacketFromBuffer(0);
                             OutputManager.sendIPPacket(bufferObject, outPort, portNumber);
-                            Console.WriteLine("{0} | Sending IPPacket from outPort {1}", DateTime.Now.ToString("h: mm: ss tt"), portNumber);
+                            Log("Sending IPPacket from outPort " + portNumber);                            
                         }
                     }
                     else
                     {
                         MPLSPack bufferContent = outPort.PrepareMPLSPackFromBuffer();
                         OutputManager.sendMPLSPack(bufferContent, portNumber, outPort);
-                        Console.WriteLine("{0} | Sending MPLSPack from outPort {1}", DateTime.Now.ToString("h: mm: ss tt"), portNumber);
+                        Log("Sending MPLSPack from outPort " + portNumber);                        
                     }
                 }
             }
@@ -111,7 +111,7 @@ namespace LabelSwitchingRouter
                     MPLSPacket packet = SetLabelAndPort(receivedPacket, destPort);
                     destinationPort = GetPortNumber(packet);
                     inPort = GetInPort(destinationPort);
-                    Console.WriteLine("{0} | Passing MPLSPacket to inPort {1}", DateTime.Now.ToString("h: mm: ss tt"), inPort);
+                    Log("Passing MPLSPacket to inPort " + inPort.GetPortNumber());                    
                     MPLSPacket processedPacket = inPort.ProcessPacket(packet);
                     Commutate(processedPacket);
 
@@ -121,7 +121,7 @@ namespace LabelSwitchingRouter
                     MPLSPack receivedPack = (MPLSPack)received;
                     destinationPort = destPort;
                     inPort = GetInPort(destinationPort);
-                    Console.WriteLine("{0} | Passing MPLSPack to inPort {1}", DateTime.Now.ToString("h: mm: ss tt"), destinationPort);
+                    Log("Passing MPLSPack to inPort " + destinationPort);                   
                     ThreadSafeList<MPLSPacket> processedPackets = inPort.ProcessPack(receivedPack, destPort);
                     foreach (MPLSPacket packet in processedPackets)
                     {
@@ -131,14 +131,14 @@ namespace LabelSwitchingRouter
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0} | Connection doesn't exist", DateTime.Now.ToString("h: mm: ss tt"));
+                Log("Connection doesn't exist");               
             }
         }
 
         private MPLSPacket SetLabelAndPort(Packet packet, int destinationPort)
         {
             int label = fib.ExchangeIpAddressForLabel(packet.destinationAddress, destinationPort);
-            Console.WriteLine("{0} | Converting IPPacket to MPLSPacket with label {1}", DateTime.Now.ToString("h: mm: ss tt"), label);
+            Log("Converting IPPacket to MPLSPacket with label " + label);            
             MPLSPacket mplspacket = new MPLSPacket(packet, label);
             mplspacket.DestinationPort = destinationPort;
             return mplspacket;
@@ -170,11 +170,22 @@ namespace LabelSwitchingRouter
                 portNumber = port.GetPortNumber();
                 if (packetOutPort == portNumber)
                 {
-                    Console.WriteLine("{0} | Adding MPLSPacket to buffer of OutPort {1}", DateTime.Now.ToString("h: mm: ss tt"), portNumber);
+                    Log("Adding MPLSPacket to buffer of OutPort " + portNumber);                    
                     port.AddToBuffer(packet);
                     return;
                 }
             }
+        }
+
+        public static void Log(string s)
+        {                       
+            Console.WriteLine("{0} | "+s, GetTimeStamp());
+        }
+
+        public static string GetTimeStamp()
+        {
+            DateTime dateTime = DateTime.Now;
+            return dateTime.ToString("HH:mm:ss.ff");
         }
 
     }

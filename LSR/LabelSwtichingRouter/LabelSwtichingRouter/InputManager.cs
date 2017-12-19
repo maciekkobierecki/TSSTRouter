@@ -44,7 +44,6 @@ namespace LabelSwitchingRouter
             removeSourcePortInformation();
             objectSize = decreaseObjectSizeByPortNumber(objectSize);
             object receivedObject = ReceiveObject(objectSize);
-            //Console.WriteLine("Received object from CableCloud");
             FireRecievedEvent(receivedObject, destPort);
         }
 

@@ -37,6 +37,9 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="ConnectionController.cs" />
     <Compile Include="FIB.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Port.cs" />
@@ -64,8 +68,13 @@
     <None Include="bin\Debug\LabelSwtichingRouter.vshost.exe.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Subnetwork\Subnetwork\Subnetwork.csproj">
+      <Project>{b24a7980-4d51-4bfb-9762-4e3f5c80e92e}</Project>
+      <Name>Subnetwork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\tsst_client\tsst_client\tsst_client.csproj">
       <Project>{f9a62193-8c61-4da8-bc84-ed8efdf2104a}</Project>
       <Name>tsst_client</Name>

@@ -21,21 +21,19 @@ namespace LabelSwitchingRouter
         }
         public MPLSPacket ProcessPacket(MPLSPacket mplsPacket)
         {
-            Console.WriteLine("MPLSPacket added to inPort {0}", portNumber);
+            LabelSwitchingRouter.Log("MPLSPacket added to inPort " + portNumber);           
             Program.count++;
-            Program.print();
             ChangeLabel(mplsPacket);
             return mplsPacket;
         }
         public ThreadSafeList<MPLSPacket> ProcessPack(MPLSPack mplsPack, int destPort)
         {
-            Console.WriteLine("{0} | MPLSPack with label {0} added to inPort {1}", DateTime.Now.ToString("h: mm: ss tt"), destPort, portNumber);
+            LabelSwitchingRouter.Log("MPLSPack added to inPort " + destPort);           
             ThreadSafeList<MPLSPacket> packets = UnpackPack(mplsPack);
-            Console.WriteLine("{0} | MPLSPack unpacked, comutating MPLSPackets", DateTime.Now.ToString("h: mm: ss tt"));
+            LabelSwitchingRouter.Log("MPLSPack unpacked, comutating MPLSPackets");            
 
             foreach (MPLSPacket packet in packets) {
                 Program.count++;
-                Program.print();
                 packet.DestinationPort = destPort;
             }
             packets.ForEach(ChangeLabel);
@@ -45,7 +43,7 @@ namespace LabelSwitchingRouter
         public void UpdateFIB(List<Entry> table)
         {
             fib.UpdateRoutingTable(table);
-            Console.WriteLine("Updating FIB in inPort {0}", portNumber);
+            LabelSwitchingRouter.Log("Updating FIB in inPort " + portNumber);           
         }
 
 
@@ -63,21 +61,28 @@ namespace LabelSwitchingRouter
             int[] FIBOutput = fib.GetOutput(oldPort, oldLabel);
             int port = FIBOutput[0];
             int label = FIBOutput[1];
-            packet.DestinationPort = port;
-            if (label != 0) packet.PutLabelOnStack(label);
+            packet.DestinationPort = port;           
+            Console.Write(LabelSwitchingRouter.GetTimeStamp() + " | MPLSPacket from inPort " + oldPort + ": old label = " + oldLabel);
+            if (label != 0)
+            {
+                packet.PutLabelOnStack(label);
+                Console.WriteLine(", new label = " + label);
+            }
+            else Console.WriteLine(", old label removed");                      
 
             if (fib.LookForLabelToBeAdded(oldPort, oldLabel) != 0)
             {
+                int addingLabel = fib.LookForLabelToBeAdded(oldPort, oldLabel);
                 packet.PutLabelOnStack(fib.LookForLabelToBeAdded(oldPort, oldLabel));
-                Console.WriteLine("{0} | Starting new tunnel", DateTime.Now.ToString("h: mm: ss tt"));
+                LabelSwitchingRouter.Log("Starting new tunnel with label " + addingLabel);                
                 ChangeLabel(packet);
             }
             else if (fib.LookForLabelToBeRemoved(oldPort, oldLabel) != 0)
             {
-                Console.WriteLine("{0} | Ending tunnel", DateTime.Now.ToString("h: mm: ss tt"));
+                LabelSwitchingRouter.Log("Ending tunnel");                
                 ChangeLabel(packet);
             }
-            Console.WriteLine("{0} | MPLSPacket label from inPort {1} changed from {2} to {3}, will be sent to outPort {4}", DateTime.Now.ToString("h: mm: ss tt"), oldPort, oldLabel, label, port);
+            
         }
 
         public int GetPortNumber()

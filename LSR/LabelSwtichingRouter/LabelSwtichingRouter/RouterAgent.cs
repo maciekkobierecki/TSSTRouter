@@ -34,9 +34,9 @@ namespace LabelSwitchingRouter
             _interface = Config.getProperty("NMSInterface");
             outport = Config.getIntegerProperty("NMSListenPort");
             init();
-            Console.WriteLine("Established connection with NMS");
+            LabelSwitchingRouter.Log("Established connection with NMS");           
             SendSingleCommand(_interface, outport);
-            Console.WriteLine("Sent hello message");
+            LabelSwitchingRouter.Log("Sent hello message");
 
             inputSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
@@ -76,7 +76,16 @@ namespace LabelSwitchingRouter
             });
             tr.Start();
         }
-        
+
+        private void SendFib(Command cm)
+        {            
+            byte[] serializedCommand = GetSerializedCommand(cm);
+            int messageSize = serializedCommand.Length;
+            byte[] size = BitConverter.GetBytes(messageSize);
+            output_socket.Send(size);
+            output_socket.Send(serializedCommand);
+        }
+
         private void init()
         {
             output_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -97,15 +106,25 @@ namespace LabelSwitchingRouter
                 {
                     byte[] bytes=Receive(foreignSocket);
                     inCommand = GetDeserializedCommand(bytes);
-                    if (inCommand.agentId == "Add")
+                    if (inCommand.agentId == "Fib")
+                    {
+                        foreach (FIB.Entry entry in fib.routingTable)
+                        {
+                            Command kom = new Command("Fib", Config.getIntegerProperty("NMSListenPort"), entry.InPort, entry.InLabel, entry.OutPort, entry.OutLabel, entry.NewLabel, entry.RemoveLabel, entry.IPAddress);
+                            SendFib(kom);                            
+                        }
+                    }
+                    else if (inCommand.agentId == "Add")
                     {
                         fib.AddEntry(inCommand.inPort, inCommand.inLabel, inCommand.outPort, inCommand.outLabel, inCommand.newLabel, inCommand.removeLabel, inCommand.ipAdress);
+                        fib.UpdatePortsRoutingTables(inPorts);
                     }
                     else
                     {
                         fib.RemoveEntry(inCommand.inPort, inCommand.inLabel);
+                        fib.UpdatePortsRoutingTables(inPorts);
                     }
-                    fib.UpdatePortsRoutingTables(inPorts);
+                    
                 }
             }
             );
