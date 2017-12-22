@@ -65,9 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="bin\Debug\LabelSwtichingRouter.vshost.exe.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="bin\Debug\LabelSwtichingRouter.exe.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

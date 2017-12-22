@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tsst_client", "..\..\..\tss
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subnetwork", "..\..\..\Subnetwork\Subnetwork\Subnetwork.csproj", "{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSocket", "..\..\..\customSocket\CustomSocket.csproj", "{A0C09126-9DD3-4857-8C90-EC2B090BEB11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
