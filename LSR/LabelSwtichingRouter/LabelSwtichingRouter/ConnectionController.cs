@@ -37,7 +37,8 @@ namespace LabelSwitchingRouter
 
         private bool ConnectionRequestIn(SNP pathBegin, SNP pathEnd)
         {
-            int inputPort=0, outputPort=0;
+            int inputPort = 0, outputPort = 0;
+
             foreach (string[] translation in addressTranslation)
             {
                 if (translation[0] == pathBegin.Address)
@@ -49,10 +50,34 @@ namespace LabelSwitchingRouter
                     outputPort = Int32.Parse(translation[1]);
                 }
             }
-            fib.AddEntry(inputPort, pathBegin.Label, outputPort, pathEnd.Label, 0, 0, "0");
+
+            if (pathBegin.Label == 0)
+            {
+                foreach (string[] translation in addressTranslation)
+                {
+                    if (translation[0] == pathBegin.PathBegin)
+                        fib.AddEntry(inputPort, pathBegin.Label, outputPort, pathEnd.Label, 0, 0, pathBegin.PathEnd);
+                    else if (translation[0] == pathBegin.PathEnd)
+                        fib.AddEntry(inputPort, pathBegin.Label, outputPort, pathEnd.Label, 0, 0, pathBegin.PathBegin);
+                }
+            }
+            else if (pathEnd.Label == 0)
+            {
+                foreach (string[] translation in addressTranslation)
+                {
+                    if (translation[0] == pathEnd.PathBegin)
+                        fib.AddEntry(inputPort, pathBegin.Label, outputPort, pathEnd.Label, 0, 0, pathEnd.PathEnd);
+                    else if (translation[0] == pathEnd.PathEnd)
+                        fib.AddEntry(inputPort, pathBegin.Label, outputPort, pathEnd.Label, 0, 0, pathEnd.PathBegin);
+                }
+            }
+            else
+            {
+                fib.AddEntry(inputPort, pathBegin.Label, outputPort, pathEnd.Label, 0, 0, "0");
+            }
             return true;
         }
     }
 }
 
-           
+
