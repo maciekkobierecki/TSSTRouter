@@ -35,7 +35,7 @@ namespace LabelSwitchingRouter
             return fileLines;
         }
 
-        private bool ConnectionRequestIn(SNP pathBegin, SNP pathEnd)
+        public bool ConnectionRequestIn(SNP pathBegin, SNP pathEnd)
         {
             int inputPort = 0, outputPort = 0;
 
