@@ -15,6 +15,8 @@ namespace LabelSwtichingRouter
     {
         public const String OPERATED_SUBNETWORK = "operatedSubnetwork";
         public const String OPERATED_SUBNETWORK_MASK = "operatedSubnetworkMask";
+        public const String PARENT_SUBNETWORK = "ParentSubnetworkAddress";
+        public const String PARENT_SUBNETWORK_PORT = "ParentSubnetworkPort";
         public const String CONNECTION_REQEST_FROM_CC = "connectionRequest";
 
 
@@ -25,13 +27,13 @@ namespace LabelSwtichingRouter
         public static void init(LabelSwitchingRouter.ConnectionController cc)
         {
             connectionController = cc;
-            String subnetAddress = Config.getProperty("mySubnetAddress");
-            String mySubnetMask = Config.getProperty("mySubnetMask");
+            String subnetAddress = Config.getProperty(OPERATED_SUBNETWORK);
+            String mySubnetMask = Config.getProperty(OPERATED_SUBNETWORK_MASK);
             mySubnetAddress = new SubnetworkAddress(subnetAddress, mySubnetMask);
-            String parentSubnetworkAddress = Config.getProperty("ParentSubnetworkAddress");
+            String parentSubnetworkAddress = Config.getProperty(PARENT_SUBNETWORK);
             if (parentSubnetworkAddress != null)
             {
-                int parentSubnetworkPort = Config.getIntegerProperty("ParentSubnetworkPort");
+                int parentSubnetworkPort = Config.getIntegerProperty(PARENT_SUBNETWORK_PORT);
                 ConnectToParentSubnetwork(IPAddress.Parse(parentSubnetworkAddress), parentSubnetworkPort);
                 SendMySubnetworkInformation();
             }

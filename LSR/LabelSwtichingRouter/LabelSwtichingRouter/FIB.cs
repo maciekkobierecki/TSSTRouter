@@ -60,7 +60,7 @@ namespace LabelSwitchingRouter
             if (!routingTable.Contains(FindInput(inport, inlabel)))
             {
                 routingTable.Add(new Entry(inport, inlabel, outport, outlabel, newlabel, removelabel, address));
-                LabelSwitchingRouter.Log("Added new entry in FIB: inport " + inport + " inlabel " + inlabel + " outport " + outport + " outlabel " + outlabel);
+                LabelSwitchingRouter.Log("Added new entry in FIB: inport " + inport + " inlabel " + inlabel + " outport " + outport + " outlabel " + outlabel + " | destinationAddress: " + address);
             }
             else LabelSwitchingRouter.Log("Entry with such input parameters already exists. Delete it before adding new one."); 
         }

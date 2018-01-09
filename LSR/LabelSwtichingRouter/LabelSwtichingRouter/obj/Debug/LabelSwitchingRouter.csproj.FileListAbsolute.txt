@@ -95,3 +95,11 @@ C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\
 C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\CustomSocket.pdb
 C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\Subnetwork.pdb
 C:\Users\Maciek\Desktop\tsst projekt1\TSST\TSST-Router\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\System.ValueTuple.xml
+D:\Adrian\Dokumenty\GitHub\TSST_2_etap\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\CustomSocket.exe
+D:\Adrian\Dokumenty\GitHub\TSST_2_etap\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\Subnetwork.exe
+D:\Adrian\Dokumenty\GitHub\TSST_2_etap\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\System.ValueTuple.dll
+D:\Adrian\Dokumenty\GitHub\TSST_2_etap\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\CustomSocket.pdb
+D:\Adrian\Dokumenty\GitHub\TSST_2_etap\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\CustomSocket.exe.config
+D:\Adrian\Dokumenty\GitHub\TSST_2_etap\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\Subnetwork.pdb
+D:\Adrian\Dokumenty\GitHub\TSST_2_etap\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\Subnetwork.exe.config
+D:\Adrian\Dokumenty\GitHub\TSST_2_etap\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\System.ValueTuple.xml
