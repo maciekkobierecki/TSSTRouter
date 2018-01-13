@@ -13,7 +13,7 @@ namespace LabelSwitchingRouter
         public static int count = 0;
         static void Main(string[] args)
         {
-            Console.Title = ("Label Switching Router : " + Config.getProperty("operatedSubnetwork"));
+            Console.Title = ("Label Switching Router : " + Config.getProperty("SubnetworkAddress"));
             OutputManager.initialize();
             InputManager inputManager = new InputManager();
             LabelSwitchingRouter lsr = new LabelSwitchingRouter();

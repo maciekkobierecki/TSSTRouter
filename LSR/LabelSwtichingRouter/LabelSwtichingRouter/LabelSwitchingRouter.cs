@@ -31,7 +31,7 @@ namespace LabelSwitchingRouter
             sendingTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             sendingTimer.Enabled = true;
             //agent = new RouterAgent(fib, inPorts);          //łączność z NMSem, teraz niepotrzebna
-            CC = new ConnectionController(fib);
+            CC = new ConnectionController(fib, inPorts);
             CreateInPorts(numberOfInputModules);
             CreateOutPorts(numberOfOutputModules);
             Log("Created LSR");          

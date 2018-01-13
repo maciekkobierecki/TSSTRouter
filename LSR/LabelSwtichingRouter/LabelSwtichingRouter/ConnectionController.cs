@@ -10,10 +10,12 @@ namespace LabelSwitchingRouter
     class ConnectionController
     {
         private FIB fib;
+        private List<InPort> inPorts;
         private List<string[]> addressTranslation; //IPaddress - localPort
-        public ConnectionController(FIB fib)
+        public ConnectionController(FIB fib, List<InPort> ports)
         {
             this.fib = fib;
+            inPorts = ports;
             addressTranslation = new List<string[]>();
             LoadTransationTableFromFile();
         }
@@ -57,15 +59,38 @@ namespace LabelSwitchingRouter
             {
                 foreach (string[] translation in addressTranslation)
                 {
+
                     if (translation[0] == firstSNP.PathBegin)
                     {
-                        fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, firstSNP.PathEnd);
-                        fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                        if (firstSNP.Deleting)
+                        {
+                            fib.RemoveEntry(inputPort, firstSNP.Label);
+                            fib.RemoveEntry(outputPort, secondSNP.Label);
+                            fib.UpdatePortsRoutingTables(inPorts);
+                        }
+                        else
+                        {
+                            fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, firstSNP.PathEnd);
+                            fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                            fib.UpdatePortsRoutingTables(inPorts);
+                        }
+
                     }
                     else if (translation[0] == firstSNP.PathEnd)
                     {
-                        fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, firstSNP.PathBegin);
-                        fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                        if (firstSNP.Deleting)
+                        {
+                            fib.RemoveEntry(inputPort, firstSNP.Label);
+                            fib.RemoveEntry(outputPort, secondSNP.Label);
+                            fib.UpdatePortsRoutingTables(inPorts);
+                        }
+                        else
+                        {
+
+                            fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, firstSNP.PathBegin);
+                            fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                            fib.UpdatePortsRoutingTables(inPorts);
+                        }
                     }
                 }
             }
@@ -75,20 +100,50 @@ namespace LabelSwitchingRouter
                 {
                     if (translation[0] == secondSNP.PathBegin)
                     {
-                        fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, secondSNP.PathEnd);
-                        fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                        if (secondSNP.Deleting)
+                        {
+                            fib.RemoveEntry(inputPort, firstSNP.Label);
+                            fib.RemoveEntry(outputPort, secondSNP.Label);
+                            fib.UpdatePortsRoutingTables(inPorts);
+                        }
+                        else
+                        {
+                            fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, secondSNP.PathEnd);
+                            fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                            fib.UpdatePortsRoutingTables(inPorts);
+                        }
                     }
                     else if (translation[0] == secondSNP.PathEnd)
                     {
-                        fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, secondSNP.PathBegin);
-                        fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                        if (secondSNP.Deleting)
+                        {
+                            fib.RemoveEntry(inputPort, firstSNP.Label);
+                            fib.RemoveEntry(outputPort, secondSNP.Label);
+                            fib.UpdatePortsRoutingTables(inPorts);
+                        }
+                        else
+                        {
+                            fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, secondSNP.PathBegin);
+                            fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                            fib.UpdatePortsRoutingTables(inPorts);
+                        }
                     }
                 }
             }
             else
             {
-                fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, "0");
-                fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                if (firstSNP.Deleting)
+                {
+                    fib.RemoveEntry(inputPort, firstSNP.Label);
+                    fib.RemoveEntry(outputPort, secondSNP.Label);
+                    fib.UpdatePortsRoutingTables(inPorts);
+                }
+                else
+                {
+                    fib.AddEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label, 0, 0, "0");
+                    fib.AddEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label, 0, 0, "0");
+                    fib.UpdatePortsRoutingTables(inPorts);
+                }
             }
             return true;
         }

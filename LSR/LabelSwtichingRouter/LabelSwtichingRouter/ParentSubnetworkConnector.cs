@@ -13,8 +13,8 @@ namespace LabelSwtichingRouter
 {
     class ParentSubnetworkConnector
     {
-        public const String OPERATED_SUBNETWORK = "operatedSubnetwork";
-        public const String OPERATED_SUBNETWORK_MASK = "operatedSubnetworkMask";
+        public const String OPERATED_SUBNETWORK = "SubnetworkAddress";
+        public const String OPERATED_SUBNETWORK_MASK = "SubnetworkMask";
         public const String PARENT_SUBNETWORK = "ParentSubnetworkAddress";
         public const String PARENT_SUBNETWORK_PORT = "ParentSubnetworkPort";
         public const String CONNECTION_REQEST_FROM_CC = "connectionRequest";
@@ -83,7 +83,8 @@ namespace LabelSwtichingRouter
                     SNP second = pathToAssign.Item2;
                     LogClass.Log("Received CONNECTION REQUEST to set connection between " + first.Address + " and " + second.Address);
                     bool response = connectionController.ConnectionRequestIn(pathToAssign.Item1, pathToAssign.Item2);
-
+                    connected.SendACK();
+                    LogClass.Log("ack sent");
                 }
             }
         }
