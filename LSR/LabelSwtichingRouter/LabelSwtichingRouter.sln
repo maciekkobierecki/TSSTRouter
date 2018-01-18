@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelSwitchingRouter", "LabelSwtichingRouter\LabelSwitchingRouter.csproj", "{86EAF508-647A-4C2F-A4A6-8D275C127841}"
 EndProject
@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NMS", "..\..\..\tsst_nms\NM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tsst_client", "..\..\..\tsst_client\tsst_client\tsst_client.csproj", "{F9A62193-8C61-4DA8-BC84-ED8EFDF2104A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSocket", "..\..\..\customSocket\CustomSocket.csproj", "{A0C09126-9DD3-4857-8C90-EC2B090BEB11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subnetwork", "..\..\..\TSSTSubnetwork\Subnetwork\Subnetwork\Subnetwork.csproj", "{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subnetwork", "..\..\..\Subnetwork\Subnetwork\Subnetwork.csproj", "{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomSocket", "..\..\..\..\..\Documents\Visual Studio 2015\Projects\CustomSocket\CustomSocket\CustomSocket.csproj", "{A0C09126-9DD3-4857-8C90-EC2B090BEB11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +31,14 @@ Global
 		{F9A62193-8C61-4DA8-BC84-ED8EFDF2104A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9A62193-8C61-4DA8-BC84-ED8EFDF2104A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9A62193-8C61-4DA8-BC84-ED8EFDF2104A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B24A7980-4D51-4BFB-9762-4E3F5C80E92E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C09126-9DD3-4857-8C90-EC2B090BEB11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

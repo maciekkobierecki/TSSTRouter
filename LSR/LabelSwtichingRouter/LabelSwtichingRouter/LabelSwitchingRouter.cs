@@ -139,6 +139,7 @@ namespace LabelSwitchingRouter
 
         private MPLSPacket SetLabelAndPort(Packet packet, int destinationPort)
         {
+            Console.WriteLine("destination: " + packet.destinationAddress);
             int label = fib.ExchangeIpAddressForLabel(packet.destinationAddress, destinationPort);
             LogClass.WhiteLog("Converting IPPacket to MPLSPacket with label " + label);            
             MPLSPacket mplspacket = new MPLSPacket(packet, label);

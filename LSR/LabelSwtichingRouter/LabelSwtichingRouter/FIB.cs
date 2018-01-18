@@ -59,7 +59,7 @@ namespace LabelSwitchingRouter
 
         public void AddEntry(int inport, int inlabel, int outport, int outlabel, int newlabel, int removelabel, String address)
         {
-            if (!routingTable.Contains(FindInput(inport, inlabel)))
+            if (!routingTable.Contains(FindInputDestination(inport, inlabel, address)))
             {
                 routingTable.Add(new Entry(inport, inlabel, outport, outlabel, newlabel, removelabel, address));
                 LogClass.GreenLog("Added new entry in FIB: inport " + inport + " inlabel " + inlabel + " outport " + outport + " outlabel " + outlabel + " | destinationAddress: " + address);
@@ -87,6 +87,11 @@ namespace LabelSwitchingRouter
         private Entry FindInput(int iport, int ilabel)
         {
             return routingTable.FindAll(x => x.InPort == iport).Find(y => y.InLabel == ilabel);
+        }
+
+        private Entry FindInputDestination(int iport, int ilabel, string destination)
+        {
+            return routingTable.FindAll(x => x.InPort == iport).FindAll(y => y.InLabel == ilabel).Find(z => z.IPAddress == destination);
         }
 
         public int[] GetOutput(int iport, int ilabel)
