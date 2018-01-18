@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Timers;
 using tsst_client;
+using CustomSocket;
 
 namespace LabelSwitchingRouter
 {
@@ -34,7 +35,7 @@ namespace LabelSwitchingRouter
             CC = new ConnectionController(fib, inPorts);
             CreateInPorts(numberOfInputModules);
             CreateOutPorts(numberOfOutputModules);
-            Log("Created LSR");          
+            LogClass.WhiteLog("Created LSR");          
             ParentSubnetworkConnector.init(CC);
         }
 
@@ -86,14 +87,14 @@ namespace LabelSwitchingRouter
                         { 
                             Packet bufferObject = outPort.PrepareIPPacketFromBuffer(0);
                             OutputManager.sendIPPacket(bufferObject, outPort, portNumber);
-                            Log("Sending IPPacket from outPort " + portNumber);                            
+                            LogClass.WhiteLog("Sending IPPacket from outPort " + portNumber);                            
                         }
                     }
                     else
                     {
                         MPLSPack bufferContent = outPort.PrepareMPLSPackFromBuffer();
                         OutputManager.sendMPLSPack(bufferContent, portNumber, outPort);
-                        Log("Sending MPLSPack from outPort " + portNumber);                        
+                        LogClass.WhiteLog("Sending MPLSPack from outPort " + portNumber);                        
                     }
                 }
             }
@@ -112,7 +113,7 @@ namespace LabelSwitchingRouter
                     MPLSPacket packet = SetLabelAndPort(receivedPacket, destPort);
                     destinationPort = GetPortNumber(packet);
                     inPort = GetInPort(destinationPort);
-                    Log("Passing MPLSPacket to inPort " + inPort.GetPortNumber());                    
+                    LogClass.WhiteLog("Passing MPLSPacket to inPort " + inPort.GetPortNumber());                    
                     MPLSPacket processedPacket = inPort.ProcessPacket(packet);
                     Commutate(processedPacket);
 
@@ -122,7 +123,7 @@ namespace LabelSwitchingRouter
                     MPLSPack receivedPack = (MPLSPack)received;
                     destinationPort = destPort;
                     inPort = GetInPort(destinationPort);
-                    Log("Passing MPLSPack to inPort " + destinationPort);                   
+                    LogClass.WhiteLog("Passing MPLSPack to inPort " + destinationPort);                   
                     ThreadSafeList<MPLSPacket> processedPackets = inPort.ProcessPack(receivedPack, destPort);
                     foreach (MPLSPacket packet in processedPackets)
                     {
@@ -132,14 +133,14 @@ namespace LabelSwitchingRouter
             }
             catch (Exception e)
             {
-                Log("Connection doesn't exist");               
+                LogClass.MagentaLog("Connection doesn't exist");               
             }
         }
 
         private MPLSPacket SetLabelAndPort(Packet packet, int destinationPort)
         {
             int label = fib.ExchangeIpAddressForLabel(packet.destinationAddress, destinationPort);
-            Log("Converting IPPacket to MPLSPacket with label " + label);            
+            LogClass.WhiteLog("Converting IPPacket to MPLSPacket with label " + label);            
             MPLSPacket mplspacket = new MPLSPacket(packet, label);
             mplspacket.DestinationPort = destinationPort;
             return mplspacket;
@@ -171,23 +172,14 @@ namespace LabelSwitchingRouter
                 portNumber = port.GetPortNumber();
                 if (packetOutPort == portNumber)
                 {
-                    Log("Adding MPLSPacket to buffer of OutPort " + portNumber);                    
+                    LogClass.WhiteLog("Adding MPLSPacket to buffer of OutPort " + portNumber);                    
                     port.AddToBuffer(packet);
                     return;
                 }
             }
         }
 
-        public static void Log(string s)
-        {                       
-            Console.WriteLine("{0} | "+s, GetTimeStamp());
-        }
-
-        public static string GetTimeStamp()
-        {
-            DateTime dateTime = DateTime.Now;
-            return dateTime.ToString("HH:mm:ss.ff");
-        }
+       
 
     }
 }

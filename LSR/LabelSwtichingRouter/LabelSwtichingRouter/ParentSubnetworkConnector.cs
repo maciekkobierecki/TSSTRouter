@@ -18,6 +18,7 @@ namespace LabelSwtichingRouter
         public const String PARENT_SUBNETWORK = "ParentSubnetworkAddress";
         public const String PARENT_SUBNETWORK_PORT = "ParentSubnetworkPort";
         public const String CONNECTION_REQEST_FROM_CC = "connectionRequest";
+        public const String DELETE_CONNECTION_REQUEST = "deleteRequest";
 
 
         private static LabelSwitchingRouter.ConnectionController connectionController;
@@ -76,15 +77,18 @@ namespace LabelSwtichingRouter
                 Tuple<String, Object> received = connected.ReceiveObject();
                 String parameter = received.Item1;
                 Object receivedObject = received.Item2;
-                if (parameter.Equals(CONNECTION_REQEST_FROM_CC))
+                if (parameter.Equals(CONNECTION_REQEST_FROM_CC) || parameter.Equals(DELETE_CONNECTION_REQUEST))
                 {
                     Tuple<SNP, SNP> pathToAssign = (Tuple<SNP, SNP>)received.Item2;
                     SNP first = pathToAssign.Item1;
                     SNP second = pathToAssign.Item2;
-                    LogClass.Log("Received CONNECTION REQUEST to set connection between " + first.Address + " and " + second.Address);
+                    if (!first.Deleting)
+                        LogClass.Log("Received request to SET CONNECTION between " + first.Address + " and " + second.Address);
+                    else
+                        LogClass.Log("Received request to DELETE CONNECTION between " + first.Address + " and " + second.Address);
                     bool response = connectionController.ConnectionRequestIn(pathToAssign.Item1, pathToAssign.Item2);
                     connected.SendACK();
-                    LogClass.Log("ack sent");
+                    LogClass.Log("[ACK] Sending confirmation to Connection Controller");
                 }
             }
         }

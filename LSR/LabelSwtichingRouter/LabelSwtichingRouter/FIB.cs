@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CustomSocket;
 
 namespace LabelSwitchingRouter
 {
@@ -48,6 +49,7 @@ namespace LabelSwitchingRouter
                 int inPort = port.GetPortNumber();
                 port.UpdateFIB(ReturnSubTable(inPort));
             }
+
         }
 
         public void UpdateRoutingTable(List<Entry> routingTable)
@@ -60,9 +62,9 @@ namespace LabelSwitchingRouter
             if (!routingTable.Contains(FindInput(inport, inlabel)))
             {
                 routingTable.Add(new Entry(inport, inlabel, outport, outlabel, newlabel, removelabel, address));
-                LabelSwitchingRouter.Log("Added new entry in FIB: inport " + inport + " inlabel " + inlabel + " outport " + outport + " outlabel " + outlabel + " | destinationAddress: " + address);
+                LogClass.GreenLog("Added new entry in FIB: inport " + inport + " inlabel " + inlabel + " outport " + outport + " outlabel " + outlabel + " | destinationAddress: " + address);
             }
-            else LabelSwitchingRouter.Log("Entry with such input parameters already exists. Delete it before adding new one."); 
+            else LogClass.WhiteLog("Entry with such input parameters already exists. Delete it before adding new one."); 
         }
 
         public void RemoveEntry(int inport, int inlabel)
@@ -71,10 +73,10 @@ namespace LabelSwitchingRouter
             if (entryToBeDeleted != null)
             {
                 routingTable.Remove(entryToBeDeleted);
-                LabelSwitchingRouter.Log("Deleted entry from FIB: inport "+ entryToBeDeleted.InPort + " inlabel " + entryToBeDeleted.InLabel + 
+                LogClass.MagentaLog("Deleted entry from FIB: inport "+ entryToBeDeleted.InPort + " inlabel " + entryToBeDeleted.InLabel + 
                     " outport " + entryToBeDeleted.OutPort + " outlabel " + entryToBeDeleted.OutLabel + " removed from FIB.");                
             }
-            else LabelSwitchingRouter.Log("Entry with such input parameters doesn't exist in this FIB."); 
+            else LogClass.WhiteLog("Entry with such input parameters doesn't exist in this FIB."); 
         }
          
         public List<Entry> ReturnSubTable(int inport)
@@ -124,11 +126,9 @@ namespace LabelSwitchingRouter
             return label;
         }
 
-        public void DisplayFIB(int inPortNumber) {
-            LabelSwitchingRouter.Log("FIB of inPort " + inPortNumber);            
+        public void DisplayFIB(int inPortNumber) {          
             foreach (Entry entry in routingTable) {
-                LabelSwitchingRouter.Log("InPort " + entry.InPort + " InLabel " + entry.InLabel + " OutPort " + entry.OutPort + " OutLabel " + entry.OutLabel +
-                    " NewLabel " + entry.NewLabel + " RemoveLabel " + entry.RemoveLabel + " DestinationAddress " + entry.IPAddress);                     
+                LogClass.WhiteLog("[FIB] InPort " + entry.InPort + " InLabel " + entry.InLabel + " OutPort " + entry.OutPort + " OutLabel " + entry.OutLabel  + " DestinationAddress " + entry.IPAddress);                     
             }
 
         }

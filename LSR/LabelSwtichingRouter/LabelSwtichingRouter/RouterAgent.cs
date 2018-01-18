@@ -10,6 +10,7 @@ using System.Net;
 using System.Threading;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using CustomSocket;
 
 namespace LabelSwitchingRouter
 {
@@ -34,9 +35,9 @@ namespace LabelSwitchingRouter
             _interface = Config.getProperty("NMSInterface");
             outport = Config.getIntegerProperty("NMSListenPort");
             init();
-            LabelSwitchingRouter.Log("Established connection with NMS");           
+            LogClass.WhiteLog("Established connection with NMS");           
             SendSingleCommand(_interface, outport);
-            LabelSwitchingRouter.Log("Sent hello message");
+            LogClass.WhiteLog("Sent hello message");
 
             inputSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPAddress ipAdd = IPAddress.Parse("127.0.0.1");
