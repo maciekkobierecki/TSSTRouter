@@ -68,9 +68,9 @@ namespace LabelSwitchingRouter
             if (label != 0)
             {
                 packet.PutLabelOnStack(label);
-                LogClass.WhiteLog(", new label = " + label);
+                Console.Write(", new label = " + label);
             }
-            else LogClass.WhiteLog(", old label removed");                      
+            else Console.Write(", old label removed");                      
 
             if (fib.LookForLabelToBeAdded(oldPort, oldLabel) != 0)
             {

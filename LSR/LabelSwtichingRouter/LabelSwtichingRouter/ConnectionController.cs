@@ -43,18 +43,14 @@ namespace LabelSwitchingRouter
         public bool ConnectionRequestIn(SNP firstSNP, SNP secondSNP)
         {
             int inputPort = 0, outputPort = 0;
-            LogClass.WhiteLog("Przyszły takie snp: " + firstSNP.Address + "  " + firstSNP.Label + " i " + secondSNP.Address + "  " + secondSNP.Label);
-            foreach (string[] translation in addressTranslation)
             {
                 if (translation[0] == firstSNP.Address)
                 {
                     inputPort = Int32.Parse(translation[1]);
-                    LogClass.Log("[INPUTPORT]" + inputPort );
                 }
                 else if (translation[0] == secondSNP.Address)
                 {
                     outputPort = Int32.Parse(translation[1]);
-                    LogClass.Log("[OUTPUTPORT]" + outputPort);
                 }
             }
 

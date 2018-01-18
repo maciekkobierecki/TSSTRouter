@@ -109,3 +109,6 @@ C:\Users\73773\Desktop\projekty\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichi
 C:\Users\73773\Desktop\projekty\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\CustomSocket.pdb
 C:\Users\73773\Desktop\projekty\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\Subnetwork.pdb
 C:\Users\73773\Desktop\projekty\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\System.ValueTuple.xml
+C:\Users\USER\Documents\GitHub\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\bin\Debug\LabelSwtichingRouter.exe.config
+C:\Users\USER\Documents\GitHub\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.exe
+C:\Users\USER\Documents\GitHub\TSSTRouter\LSR\LabelSwtichingRouter\LabelSwtichingRouter\obj\Debug\LabelSwtichingRouter.pdb
