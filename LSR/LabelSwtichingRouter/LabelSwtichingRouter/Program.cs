@@ -19,7 +19,7 @@ namespace LabelSwitchingRouter
             LabelSwitchingRouter lsr = new LabelSwitchingRouter();
             inputManager.ProcessPackage += lsr.PassToInModule;
             while(true)
-                inputManager.waitForInput();
+                inputManager.WaitForInput();
             //Thread t = new Thread(new ParameterizedThreadStart(listenForInput));
             //t.Start(inputManager);
         }
@@ -29,7 +29,7 @@ namespace LabelSwitchingRouter
             InputManager inputManager = (InputManager)manager;
             while (true)
             {
-                inputManager.waitForInput();
+                inputManager.WaitForInput();
             }
         }
 

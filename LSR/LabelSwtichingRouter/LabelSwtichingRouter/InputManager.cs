@@ -22,40 +22,40 @@ namespace LabelSwitchingRouter
 
         public InputManager()
         {
-            initalizeInputSocket();
+            InitalizeInputSocket();
         }
-        private void initalizeInputSocket()
+        private void InitalizeInputSocket()
         {
             int port = Config.getIntegerProperty("CableCloudOutPort");
             String address = Config.getProperty("CableCloudAddress");
-            createSocket(address, port);
+            CreateSocket(address, port);
         }
-        private void createSocket(String address, int port)
+        private void CreateSocket(String address, int port)
         {
             IPAddress cableCloudAddress = IPAddress.Parse(address);
             IPEndPoint ipe = new IPEndPoint(cableCloudAddress, port);
             inputSocket = new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             inputSocket.Connect(ipe);
         }
-        public void waitForInput()
+        public void WaitForInput()
         {
             int objectSize = ReadIncomingObjectSize();
             int destPort = ReadIncomingObjectSize(); //tak naprawde to to jest dest 
-            removeSourcePortInformation();
-            objectSize = decreaseObjectSizeByPortNumber(objectSize);
+            RemoveSourcePortInformation();
+            objectSize = DecreaseObjectSizeByPortNumber(objectSize);
             object receivedObject = ReceiveObject(objectSize);
             FireRecievedEvent(receivedObject, destPort);
         }
 
-        private void removeSourcePortInformation()
+        private void RemoveSourcePortInformation()
         {
             byte[] bytes = new byte[4];
             inputSocket.Receive(bytes, 0, INTEGER_SIZE, SocketFlags.None);
         }
 
-        private int decreaseObjectSizeByPortNumber(int objectSize)
+        private int DecreaseObjectSizeByPortNumber(int objectSize)
         {
-            return objectSize - 2*INTEGER_SIZE;
+            return objectSize - 2 * INTEGER_SIZE;
         }
         private int ReadIncomingObjectSize()
         {

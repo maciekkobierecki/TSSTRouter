@@ -122,7 +122,7 @@ namespace LabelSwitchingRouter
                     }
                     else
                     {
-                        fib.RemoveEntry(inCommand.inPort, inCommand.inLabel);
+                       // fib.RemoveEntry(inCommand.inPort, inCommand.inLabel);
                         fib.UpdatePortsRoutingTables(inPorts);
                     }
                     

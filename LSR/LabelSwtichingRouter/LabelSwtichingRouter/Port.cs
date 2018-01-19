@@ -44,7 +44,7 @@ namespace LabelSwitchingRouter
         public void UpdateFIB(List<Entry> table)
         {
             fib.UpdateRoutingTable(table);
-            LogClass.GreenLog("Updating FIB in inPort " + portNumber);
+            LogClass.Log("Updating FIB in inPort " + portNumber);
             fib.DisplayFIB(portNumber);
         }
 
@@ -54,13 +54,12 @@ namespace LabelSwitchingRouter
             return pack.Unpack();
         }
 
-
         private void ChangeLabel(MPLSPacket packet)
         {
             int oldPort = packet.DestinationPort;
             int oldLabel = packet.GetLabelFromStack();
 
-            int[] FIBOutput = fib.GetOutput(oldPort, oldLabel);
+            int[] FIBOutput = fib.GetOutput(oldPort, oldLabel, packet.ipPacket.destinationAddress);
             int port = FIBOutput[0];
             int label = FIBOutput[1];
             packet.DestinationPort = port;
@@ -68,9 +67,9 @@ namespace LabelSwitchingRouter
             if (label != 0)
             {
                 packet.PutLabelOnStack(label);
-                Console.Write(", new label = " + label);
+                Console.WriteLine("            | new label = " + label);
             }
-            else Console.Write(", old label removed");                      
+            else Console.WriteLine("            | old label removed");                      
 
             if (fib.LookForLabelToBeAdded(oldPort, oldLabel) != 0)
             {

@@ -44,7 +44,7 @@ namespace LabelSwitchingRouter
         {
             int inputPort = 0, outputPort = 0;
             
-                LogClass.WhiteLog("Przyszły takie snp: " + firstSNP.Address + "  " + firstSNP.Label + " i " + secondSNP.Address + "  " + secondSNP.Label);
+                //LogClass.WhiteLog("Przyszły takie snp: " + firstSNP.Address + "  " + firstSNP.Label + " i " + secondSNP.Address + "  " + secondSNP.Label);
                 foreach (string[] translation in addressTranslation)
                 { 
                     if (translation[0] == firstSNP.Address)
@@ -66,8 +66,8 @@ namespace LabelSwitchingRouter
                     {
                         if (firstSNP.Deleting)
                         {
-                            fib.RemoveEntry(inputPort, firstSNP.Label);
-                            fib.RemoveEntry(outputPort, secondSNP.Label);
+                            fib.RemoveEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label);
+                            fib.RemoveEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label);
                             fib.UpdatePortsRoutingTables(inPorts);
                         }
                         else
@@ -82,8 +82,8 @@ namespace LabelSwitchingRouter
                     {
                         if (firstSNP.Deleting)
                         {
-                            fib.RemoveEntry(inputPort, firstSNP.Label);
-                            fib.RemoveEntry(outputPort, secondSNP.Label);
+                            fib.RemoveEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label);
+                            fib.RemoveEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label);
                             fib.UpdatePortsRoutingTables(inPorts);
                         }
                         else
@@ -104,8 +104,8 @@ namespace LabelSwitchingRouter
                     {
                         if (secondSNP.Deleting)
                         {
-                            fib.RemoveEntry(inputPort, firstSNP.Label);
-                            fib.RemoveEntry(outputPort, secondSNP.Label);
+                            fib.RemoveEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label);
+                            fib.RemoveEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label);
                             fib.UpdatePortsRoutingTables(inPorts);
                         }
                         else
@@ -119,8 +119,8 @@ namespace LabelSwitchingRouter
                     {
                         if (secondSNP.Deleting)
                         {
-                            fib.RemoveEntry(inputPort, firstSNP.Label);
-                            fib.RemoveEntry(outputPort, secondSNP.Label);
+                            fib.RemoveEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label);
+                            fib.RemoveEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label);
                             fib.UpdatePortsRoutingTables(inPorts);
                         }
                         else
@@ -136,8 +136,8 @@ namespace LabelSwitchingRouter
             {
                 if (firstSNP.Deleting)
                 {
-                    fib.RemoveEntry(inputPort, firstSNP.Label);
-                    fib.RemoveEntry(outputPort, secondSNP.Label);
+                    fib.RemoveEntry(inputPort, firstSNP.Label, outputPort, secondSNP.Label);
+                    fib.RemoveEntry(outputPort, secondSNP.Label, inputPort, firstSNP.Label);
                     fib.UpdatePortsRoutingTables(inPorts);
                 }
                 else

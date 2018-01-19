@@ -36,7 +36,7 @@ namespace LabelSwitchingRouter
             CreateInPorts(numberOfInputModules);
             CreateOutPorts(numberOfOutputModules);
             LogClass.WhiteLog("Created LSR");          
-            ParentSubnetworkConnector.init(CC);
+            ParentSubnetworkConnector.Init(CC);
         }
 
         private int GetInputModulesNumber()
@@ -110,10 +110,11 @@ namespace LabelSwitchingRouter
                 if (received.GetType() == typeof(Packet))
                 {
                     Packet receivedPacket = (Packet)received;
-                    MPLSPacket packet = SetLabelAndPort(receivedPacket, destPort);
+
+                    MPLSPacket packet = SetLabelAndPort(receivedPacket, destPort);                                                                          
                     destinationPort = GetPortNumber(packet);
                     inPort = GetInPort(destinationPort);
-                    LogClass.WhiteLog("Passing MPLSPacket to inPort " + inPort.GetPortNumber());                    
+                    //LogClass.WhiteLog("Passing MPLSPacket to inPort " + inPort.GetPortNumber());                    
                     MPLSPacket processedPacket = inPort.ProcessPacket(packet);
                     Commutate(processedPacket);
 
@@ -123,7 +124,7 @@ namespace LabelSwitchingRouter
                     MPLSPack receivedPack = (MPLSPack)received;
                     destinationPort = destPort;
                     inPort = GetInPort(destinationPort);
-                    LogClass.WhiteLog("Passing MPLSPack to inPort " + destinationPort);                   
+                    //LogClass.WhiteLog("Passing MPLSPack to inPort " + destinationPort);                   
                     ThreadSafeList<MPLSPacket> processedPackets = inPort.ProcessPack(receivedPack, destPort);
                     foreach (MPLSPacket packet in processedPackets)
                     {
@@ -139,7 +140,7 @@ namespace LabelSwitchingRouter
 
         private MPLSPacket SetLabelAndPort(Packet packet, int destinationPort)
         {
-            Console.WriteLine("destination: " + packet.destinationAddress);
+            //Console.WriteLine("destination: " + packet.destinationAddress);
             int label = fib.ExchangeIpAddressForLabel(packet.destinationAddress, destinationPort);
             LogClass.WhiteLog("Converting IPPacket to MPLSPacket with label " + label);            
             MPLSPacket mplspacket = new MPLSPacket(packet, label);

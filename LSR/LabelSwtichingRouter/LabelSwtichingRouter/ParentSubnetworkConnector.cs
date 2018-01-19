@@ -20,12 +20,11 @@ namespace LabelSwtichingRouter
         public const String CONNECTION_REQEST_FROM_CC = "connectionRequest";
         public const String DELETE_CONNECTION_REQUEST = "deleteRequest";
 
-
         private static LabelSwitchingRouter.ConnectionController connectionController;
         private static CSocket toParentSocket;
         private static SubnetworkAddress mySubnetAddress;
 
-        public static void init(LabelSwitchingRouter.ConnectionController cc)
+        public static void Init(LabelSwitchingRouter.ConnectionController cc)
         {
             connectionController = cc;
             String subnetAddress = Config.getProperty(OPERATED_SUBNETWORK);
@@ -47,13 +46,13 @@ namespace LabelSwtichingRouter
 
         private static void SendMySubnetworkInformation()
         {
-            object toSend = getSubnetworkInformation();
+            object toSend = GetSubnetworkInformation();
             toParentSocket.SendObject(OPERATED_SUBNETWORK, toSend);
-            waitForInputFromSocketInAnotherThread(toParentSocket);
+            WaitForInputFromSocketInAnotherThread(toParentSocket);
 
         }
 
-        private static object getSubnetworkInformation()
+        private static object GetSubnetworkInformation()
         {
             Dictionary<string, string> mySubnetworkInformation = new Dictionary<string, string>();
             string mySubnetworkAddress = Config.getProperty(OPERATED_SUBNETWORK);
@@ -64,13 +63,13 @@ namespace LabelSwtichingRouter
             return mySubnetworkInformation;
         }
 
-        private static void waitForInputFromSocketInAnotherThread(CSocket connected)
+        private static void WaitForInputFromSocketInAnotherThread(CSocket connected)
         {
-            var t = new Thread(() => waitForInput(connected));
+            var t = new Thread(() => WaitForInput(connected));
             t.Start();
         }
 
-        private static void waitForInput(CSocket connected)
+        private static void WaitForInput(CSocket connected)
         {
             while (true)
             {
@@ -83,12 +82,13 @@ namespace LabelSwtichingRouter
                     SNP first = pathToAssign.Item1;
                     SNP second = pathToAssign.Item2;
                     if (!first.Deleting)
-                        LogClass.Log("Received request to SET CONNECTION between " + first.Address + " and " + second.Address);
+                        LogClass.CyanLog("Received request to SET CONNECTION between " + first.Address + " and " + second.Address);
                     else
-                        LogClass.Log("Received request to DELETE CONNECTION between " + first.Address + " and " + second.Address);
+                        LogClass.CyanLog("Received request to DELETE CONNECTION between " + first.Address + " and " + second.Address);
                     bool response = connectionController.ConnectionRequestIn(pathToAssign.Item1, pathToAssign.Item2);
                     connected.SendACK();
-                    LogClass.Log("[ACK] Sending confirmation to Connection Controller");
+                    LogClass.CyanLog("[ACK] Sending confirmation to Connection Controller");
+                    Console.WriteLine("");
                 }
             }
         }
